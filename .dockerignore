@@ -1,0 +1,34 @@
+# Ignore dependency modules
+**/node_modules
+
+# Ignore environment config files
+**/.env
+**/.env.*
+**/package-lock.json (except when copied explicitly)
+
+# Ignore version control configs
+.git
+.gitignore
+
+# Ignore build system outputs & documentation
+docs/
+helm/
+k8s/
+terraform/
+scripts/
+README.md
+walkthrough.md
+implementation_plan.md
+task.md
+
+# Ignore debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Ignore local editor configs
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
