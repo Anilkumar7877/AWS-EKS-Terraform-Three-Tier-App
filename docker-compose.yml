@@ -1,0 +1,48 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: threetier-mongo-compose
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=testpass123
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - threetier-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: threetier-backend-compose
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://admin:testpass123@mongodb:27017/threetier?authSource=admin
+      - PORT=5000
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    networks:
+      - threetier-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: threetier-frontend-compose
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+    networks:
+      - threetier-network
+
+volumes:
+  mongo-data:
+
+networks:
+  threetier-network:
+    driver: bridge

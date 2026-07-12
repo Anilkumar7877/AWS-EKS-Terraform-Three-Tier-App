@@ -123,6 +123,27 @@ Navigate to the `frontend/` directory and spin up the development static file se
 
 ---
 
+## 🐳 Quickstart with Docker Compose
+
+To boot up the entire three-tier stack (Frontend, Backend, and MongoDB Database) with a single command, you can use the configured `docker-compose.yml` file.
+
+1. **Start all services:**
+   From the repository root directory, run:
+   ```bash
+   docker compose up --build
+   ```
+2. **Access the application:**
+   - **Web Portal (Frontend)**: Go to [http://localhost:8000](http://localhost:8000) (runs on port 8000).
+   - **Express API (Backend)**: Accessible at [http://localhost:5000](http://localhost:5000).
+   - **MongoDB**: Exposed on port `27017` to the host.
+
+3. **Stop all services:**
+   ```bash
+   docker compose down
+   ```
+
+---
+
 ## 🔌 REST API Documentation
 
 ### 1. Health Status

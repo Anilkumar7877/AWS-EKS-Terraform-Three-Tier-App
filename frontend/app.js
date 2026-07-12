@@ -9,7 +9,7 @@ const getBackendUrl = () => {
     if (window.location.port === '5000') {
       return '';
     }
-    return 'http://localhost:5000';
+    return 'http://127.0.0.1:5000';
   }
   // In production (e.g. EKS with ingress), query the same host relatively
   return '';
