@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EKS Portal - Three Tier Application</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-background">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i data-lucide="layers"></i>
+        </div>
+        <div class="logo-text">
+          <h1>EKS Portal</h1>
+          <p>Three-Tier Architecture Demonstration</p>
+        </div>
+      </div>
+      
+      <div class="header-controls">
+        <button id="theme-toggle" class="icon-button" aria-label="Toggle theme">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Status Grid -->
+    <section class="status-grid">
+      <div class="status-card" id="status-api">
+        <div class="status-icon info">
+          <i data-lucide="cpu"></i>
+        </div>
+        <div class="status-info">
+          <h3>Backend API</h3>
+          <span class="status-badge checking">Checking...</span>
+        </div>
+      </div>
+
+      <div class="status-card" id="status-db">
+        <div class="status-icon success">
+          <i data-lucide="database"></i>
+        </div>
+        <div class="status-info">
+          <h3>MongoDB Database</h3>
+          <span class="status-badge checking">Checking...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Registration Section -->
+      <section class="content-panel register-panel">
+        <div class="panel-header">
+          <i data-lucide="user-plus"></i>
+          <h2>Add New User</h2>
+        </div>
+        <form id="user-form" class="user-form">
+          <div class="form-group">
+            <label for="username">Full Name</label>
+            <div class="input-wrapper">
+              <i data-lucide="user" class="input-icon"></i>
+              <input type="text" id="username" placeholder="John Doe" required autocomplete="off">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="email" placeholder="john.doe@example.com" required autocomplete="off">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="submit-btn">
+            <span class="btn-text">Register User</span>
+            <span class="spinner hidden"></span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Users List Section -->
+      <section class="content-panel list-panel">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <i data-lucide="users"></i>
+            <h2>Registered Users</h2>
+          </div>
+          <button id="refresh-btn" class="icon-button" aria-label="Refresh users">
+            <i data-lucide="rotate-cw"></i>
+          </button>
+        </div>
+
+        <div class="users-container" id="users-list">
+          <div class="loading-state">
+            <span class="spinner"></span>
+            <p>Loading users...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer-text">
+      <p>Node.js &bull; Express &bull; MongoDB &bull; Mongoose &bull; HTML5 &bull; CSS3</p>
+    </footer>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

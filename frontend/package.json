@@ -1,0 +1,9 @@
+{
+  "name": "three-tier-frontend",
+  "version": "1.0.0",
+  "description": "Static frontend for EKS Three Tier app",
+  "scripts": {
+    "start": "npx -y http-server ./ -p 3000",
+    "dev": "npx -y http-server ./ -p 3000"
+  }
+}
