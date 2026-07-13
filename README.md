@@ -8,25 +8,9 @@ The repository is structured to run locally for development and is pre-configure
 
 ## 🏛️ Project Architecture
 
-```mermaid
-graph TD
-    subgraph Frontend Tier
-        FE[Static Web App: HTML5 / CSS3 / JS]
-    end
+![Project Architecture Diagram](screenshots/architecture_diagram.svg)
 
-    subgraph Backend Tier
-        BE[Express.js / Node.js API Service]
-    end
-
-    subgraph Database Tier
-        DB[(MongoDB Database Container)]
-    end
-
-    FE -->|HTTP / CORS Requests| BE
-    BE -->|Mongoose ODM Connection| DB
-```
-
----
+----
 
 ## 📂 Repository Structure
 
@@ -144,57 +128,26 @@ To boot up the entire three-tier stack (Frontend, Backend, and MongoDB Database)
 
 ---
 
-## 🔌 REST API Documentation
+## 🛠️ DevOps Infrastructure Architecture & Features
 
-### 1. Health Status
-Verify the health and connection status of the backend API and MongoDB.
-- **Route:** `GET /api/health`
-- **Response Code (Healthy):** `200 OK`
-- **Response Code (Unhealthy/DB disconnected):** `503 Service Unavailable`
-- **Sample Payload:**
-  ```json
-  {
-    "status": "UP",
-    "timestamp": "2026-07-12T07:18:15.000Z",
-    "services": {
-      "api": { "status": "UP" },
-      "database": { "status": "UP", "details": "connected" }
-    }
-  }
-  ```
+This project utilizes a modern DevOps stack to automate deployments, secure container configurations, and manage cloud infrastructure as code.
 
-### 2. Fetch Users
-Fetch all registered users, sorted in descending order of creation.
-- **Route:** `GET /api/users`
-- **Sample Payload:**
-  ```json
-  {
-    "success": true,
-    "count": 1,
-    "data": [
-      {
-        "_id": "64b0f9f38f4d9c49a141b712",
-        "name": "Jane Doe",
-        "email": "jane.doe@example.com",
-        "createdAt": "2026-07-12T07:44:00.000Z"
-      }
-    ]
-  }
-  ```
+### 1. Multi-Container Orchestration (Docker & Compose)
+- **Container Isolation**: Multi-stage docker builds isolate compiler environments from the final production images, reducing attack surface and bundle size.
+- **Docker Compose Networking**: Defines a bridge network mapping frontend proxy, backend Express application, and isolated database with environment references for rapid local replication.
 
-### 3. Create User
-Register a new user in the database.
-- **Route:** `POST /api/users`
-- **Headers:** `Content-Type: application/json`
-- **Payload:**
-  ```json
-  {
-    "name": "Jane Doe",
-    "email": "jane.doe@example.com"
-  }
-  ```
-- **Success Response (`211 Created`):** Returns the saved user object.
-- **Error Response (`400 Bad Request`):** Validation failure or email duplicate.
+### 2. High-Availability AWS Networking (VPC via Terraform)
+- **Subnet Distribution**: Deploys the infrastructure across 4 subnets inside a custom VPC (2 Public subnets and 2 Private subnets across multiple Availability Zones).
+- **Public/Private Boundaries**: Database workloads and EC2 worker nodes reside in the private subnets, while the ingress gateways reside in the public subnets.
+- **EKS Subnet Auto-Discovery Tags**: Public subnets are tagged with `kubernetes.io/role/elb = 1` and private subnets with `kubernetes.io/role/internal-elb = 1`. This allows the EKS Load Balancer Controller to automatically identify subnet scopes when creating load balancers.
+
+### 3. AWS Identity Integration (OIDC & IRSA)
+- **IAM OIDC Identity Provider**: Associated with the EKS cluster control plane to establish trust between AWS IAM and the Kubernetes service accounts.
+- **IAM Roles for Service Accounts (IRSA)**: Grants granular, temporary IAM permissions directly to the Kubernetes pods (like the Load Balancer Controller) using standard web-identity tokens instead of hardcoded long-lived credentials.
+
+### 4. Application Load Balancing (ALB Ingress)
+- **AWS Load Balancer Controller**: Manages Application Load Balancers (ALB) dynamically on AWS.
+- **Target Type Routing**: The Ingress resource uses `target-type: ip` mapping, which directs external HTTP requests directly to the target pods' IP addresses without needing node-port configurations, maximizing routing performance.
 
 
 ---
@@ -258,6 +211,43 @@ Once the EKS cluster or a local Minikube cluster is running, configure and deplo
    ```bash
    kubectl apply -f k8s/ingress/
    ```
+
+
+---
+
+## 📸 Screenshots & Visual Verification
+
+Below is the step-by-step visual documentation of the EKS Three-Tier infrastructure setup:
+
+1. **Architecture Diagram**
+   ![1. Architecture Diagram](screenshots/architecture_diagram.svg)
+
+2. **Final Website** ⭐⭐⭐⭐⭐
+   ![2. Final Website](screenshots/website.png)
+
+3. **EKS Cluster**
+   ![3. EKS Cluster](screenshots/eks_cluster.png)
+
+4. **Compute / Node Group**
+   ![4. Compute / Node Group](screenshots/eks_cluster_compute.png)
+
+5. **VPC**
+   ![5. VPC](screenshots/vpc.png)
+
+6. **Load Balancer**
+   ![6. Load Balancer](screenshots/load_balancer.png)
+
+7. **Target Groups**
+   ![7. Target Groups](screenshots/target_groups.png)
+
+8. **Docker Hub**
+   ![8. Docker Hub](screenshots/docker_hub.png)
+
+9. **kubectl get all**
+   ![9. kubectl get all](screenshots/kubectl_all.png)
+   
+10. **Ingress**
+    ![10. Ingress](screenshots/kubectl_ingress.png)
 
 ---
 
