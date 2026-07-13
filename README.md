@@ -46,9 +46,9 @@ EKS Three Tier/
 │   ├── style.css          # Glassmorphic responsive stylesheet
 │   ├── app.js             # Frontend API integrations & theme manager
 │   └── package.json       # Frontend scripts (http-server launcher)
-├── k8s/                   # Kubernetes deployment manifest blueprints (empty)
+├── k8s/                   # Kubernetes namespace, deployment, service, and ingress manifests
 ├── helm/                  # Helm charts blueprints (empty)
-├── terraform/             # IaC configurations (empty)
+├── terraform/             # AWS EKS IaC configs (VPC, IAM, EKS, Node Group)
 ├── scripts/               # Helper scripts (empty)
 ├── docs/                  # Project documentation (empty)
 └── .gitignore             # Root git exclusion settings
@@ -195,6 +195,69 @@ Register a new user in the database.
   ```
 - **Success Response (`211 Created`):** Returns the saved user object.
 - **Error Response (`400 Bad Request`):** Validation failure or email duplicate.
+
+
+---
+
+## 🏗️ Cloud Infrastructure Provisioning (AWS EKS via Terraform)
+
+To deploy the entire network and EKS cluster on AWS:
+
+1. **Configure your AWS credentials:**
+   ```bash
+   aws configure
+   ```
+
+2. **Navigate into the Terraform directory:**
+   ```bash
+   cd terraform
+   ```
+
+3. **Initialize Terraform:**
+   ```bash
+   terraform init
+   ```
+
+4. **Verify resources execution plan:**
+   ```bash
+   terraform plan
+   ```
+
+5. **Deploy the EKS Infrastructure:**
+   ```bash
+   terraform apply
+   ```
+
+---
+
+## ☸️ Kubernetes deployment (Amazon EKS / Minikube)
+
+Once the EKS cluster or a local Minikube cluster is running, configure and deploy your application tiers:
+
+1. **Deploy Namespace:**
+   ```bash
+   kubectl apply -f k8s/namespace.yaml
+   ```
+
+2. **Deploy MongoDB Database:**
+   ```bash
+   kubectl apply -f k8s/mongodb/
+   ```
+
+3. **Deploy Backend API:**
+   ```bash
+   kubectl apply -f k8s/backend/
+   ```
+
+4. **Deploy Frontend Portal:**
+   ```bash
+   kubectl apply -f k8s/frontend/
+   ```
+
+5. **Expose and route traffic via Ingress:**
+   ```bash
+   kubectl apply -f k8s/ingress/
+   ```
 
 ---
 
