@@ -1,17 +1,14 @@
 // Dynamic API base URL resolver
 const getBackendUrl = () => {
-  // If running from local file system or standard local dev servers, target localhost:5000
+  // If running from local file system or standard local dev servers, target local backend port 5000
   if (
     window.location.protocol === 'file:' ||
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1'
+    window.location.port === '3000' ||
+    window.location.port === '8000'
   ) {
-    if (window.location.port === '5000') {
-      return '';
-    }
     return 'http://127.0.0.1:5000';
   }
-  // In production (e.g. EKS with ingress), query the same host relatively
+  // In production (EKS Ingress) or Minikube Ingress (running on port 80), query relative host
   return '';
 };
 
