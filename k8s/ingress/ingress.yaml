@@ -4,7 +4,9 @@ metadata:
   name: threetier-ingress
   namespace: workshop
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
     - http:

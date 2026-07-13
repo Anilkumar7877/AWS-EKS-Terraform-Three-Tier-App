@@ -27,3 +27,9 @@ output "cluster_security_group_id" {
   description = "The security group ID attached to the EKS Cluster control plane"
   value       = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
 }
+
+output "aws_load_balancer_controller_role_arn" {
+  description = "The ARN of the IAM role for AWS Load Balancer Controller (IRSA)"
+  value       = aws_iam_role.aws_load_balancer_controller.arn
+}
+
